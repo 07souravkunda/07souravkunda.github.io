@@ -38,6 +38,8 @@ function resize() {
     alert('Please upload image!!');
     return;
   }
+  const btns = document.getElementsByClassName('btn-item');
+  if (btns[0]) btns[0].remove();
   let cropX = p.offsetLeft,
     cropY = p.offsetTop,
     cropWidth = parseInt(
