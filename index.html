@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Resize Images</title>
+    <script
+      src="https://docs.opencv.org/3.4.0/opencv.js"
+      type="text/javascript"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="form">
+      <input
+        type="file"
+        name="uploadfile"
+        id="inp"
+        style="display: none"
+      />
+      <label id="fileLabel" for="inp">Upload Img</label>
+      <button id="resize">Crop</button>
+    </div>
+    <div class="container">
+      <div class="box">
+        <p>Source Image</p>
+        <div>
+          <div class="resize-container resizable">
+            <div class="resizer"></div>
+          </div>
+          <canvas id="canvas"></canvas>
+        </div>
+      </div>
+
+      <div class="box">
+        <p>Output Image</p>
+        <div>
+          <canvas id="resized"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,83 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  padding: 5px;
+  margin-bottom: 25px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid black;
+  margin-left: 10px;
+}
+
+.resize-container {
+  background: grey;
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  opacity: 0.5;
+  border: 2px dashed black;
+  display: none;
+}
+
+.resize-container .resizer {
+  width: 10px;
+  height: 10px;
+  background: #05b287;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  cursor: se-resize;
+  opacity: 1;
+}
+
+input::placeholder {
+  color: black;
+}
+
+.btn-item,
+button,
+#fileLabel {
+  padding: 10px 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: none;
+  background: #05b287;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 400;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+button:hover,
+.btn-item:hover,
+#fileLabel:hover {
+  background: #85d6de;
+}
+
+.form {
+  margin-bottom: 10px;
+}
+.box {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  width: 90%;
+}
