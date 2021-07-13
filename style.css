@@ -24,29 +24,27 @@ input {
   margin-left: 10px;
 }
 
-.resize-container {
-  background: grey;
-  height: 100px;
-  width: 100px;
-  position: absolute;
-  opacity: 0.5;
-  border: 2px dashed black;
-  display: none;
-}
-
-.resize-container .resizer {
-  width: 10px;
+.corner {
+  background: black;
   height: 10px;
-  background: #05b287;
+  width: 10px;
   position: absolute;
-  right: 0;
-  bottom: 0;
-  cursor: se-resize;
   opacity: 1;
+  border-radius: 5px;
+  /* display: none; */
 }
 
-input::placeholder {
-  color: black;
+#corner2 {
+  left: 50px;
+}
+
+#corner3 {
+  top: 100px;
+}
+
+#corner4 {
+  top: 100px;
+  left: 50px;
 }
 
 .btn-item,
@@ -80,4 +78,11 @@ button:hover,
   flex-direction: column;
   margin-bottom: 20px;
   width: 90%;
+}
+
+.line {
+  position: absolute;
+  width: 2px;
+  margin-top: -1px;
+  background-color: red;
 }
