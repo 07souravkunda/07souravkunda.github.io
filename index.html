@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>Crop Images</title>
+    <title>Resize Images</title>
     <script
       src="https://docs.opencv.org/3.4.0/opencv.js"
       type="text/javascript"
@@ -29,9 +29,14 @@
       <div class="box">
         <p>Source Image</p>
         <div>
-          <div class="resize-container resizable">
-            <div class="resizer"></div>
-          </div>
+          <div id="line1" class="line"></div>
+          <div id="line2" class="line"></div>
+          <div id="line3" class="line"></div>
+          <div id="line4" class="line"></div>
+          <div id="corner1" class="corner"></div>
+          <div id="corner2" class="corner"></div>
+          <div id="corner3" class="corner"></div>
+          <div id="corner4" class="corner"></div>
           <canvas id="canvas"></canvas>
         </div>
       </div>
