@@ -39,27 +39,24 @@ function resize() {
     return;
   }
   const btns = document.getElementsByClassName('btn-item');
+  console.log(btns);
   if (btns[0]) btns[0].remove();
-  let cropX = p.offsetLeft,
-    cropY = p.offsetTop,
-    cropWidth = parseInt(
-      document.defaultView.getComputedStyle(p).width
-    ),
-    cropHeight = parseInt(
-      document.defaultView.getComputedStyle(p).height
-    );
-  let corner1 = new cv.Point(cropX - imgX, cropY - imgY);
+
+  let corner1 = new cv.Point(
+    p[0].offsetLeft,
+    p[0].offsetTop - imgY
+  );
   let corner2 = new cv.Point(
-    cropX - imgX + cropWidth,
-    cropY - imgY
+    p[1].offsetLeft,
+    p[1].offsetTop - imgY
   );
   let corner3 = new cv.Point(
-    cropX - imgX,
-    cropY - imgY + cropHeight
+    p[2].offsetLeft,
+    p[2].offsetTop - imgY
   );
   let corner4 = new cv.Point(
-    cropX - imgX + cropWidth,
-    cropHeight + cropY - imgY
+    p[3].offsetLeft,
+    p[3].offsetTop - imgY
   );
   let cornerArray = [
     { corner: corner1 },
@@ -156,74 +153,26 @@ function failed() {
     "The provided file couldn't be loaded as an Image media"
   );
 }
-const p = document.getElementsByClassName(
-  'resize-container'
-)[0];
-dragElement(p);
-const resizer =
-  document.getElementsByClassName('resizer')[0];
-resizer.addEventListener('mousedown', initDrag, false);
-
-function initDrag(e) {
-  e.stopPropagation();
-  startX = e.clientX;
-  startY = e.clientY;
-  startWidth = parseInt(
-    document.defaultView.getComputedStyle(p).width,
-    10
-  );
-  startHeight = parseInt(
-    document.defaultView.getComputedStyle(p).height,
-    10
-  );
-  document.documentElement.addEventListener(
-    'mousemove',
-    doDrag,
-    false
-  );
-  document.documentElement.addEventListener(
-    'mouseup',
-    stopDrag,
-    false
-  );
+const p = document.getElementsByClassName('corner');
+for (let i = 0; i < p.length; i++) {
+  dragElement(p[i]);
 }
 
-function doDrag(e) {
-  let x = startWidth + e.clientX - startX,
-    y = startHeight + e.clientY - startY;
-
-  if (x < imgWidth - p.offsetLeft) {
-    p.style.width = x + 'px';
-  }
-
-  if (y < imgHeight + imgY - p.offsetTop) {
-    p.style.height = y + 'px';
-  }
-}
-
-function stopDrag(e) {
-  document.documentElement.removeEventListener(
-    'mousemove',
-    doDrag,
-    false
-  );
-  document.documentElement.removeEventListener(
-    'mouseup',
-    stopDrag,
-    false
-  );
-}
+adjustLine(p[0], p[1], document.getElementById('line1'));
+adjustLine(p[0], p[2], document.getElementById('line2'));
+adjustLine(p[2], p[3], document.getElementById('line3'));
+adjustLine(p[3], p[1], document.getElementById('line4'));
 
 function dragElement(elmnt) {
-  p.addEventListener('mousedown', dragMouseDown);
+  elmnt.addEventListener('mousedown', dragMouseDown);
   let wid, hgh;
   function dragMouseDown(e) {
     wid = parseInt(
-      document.defaultView.getComputedStyle(p).width,
+      document.defaultView.getComputedStyle(elmnt).width,
       10
     );
     hgh = parseInt(
-      document.defaultView.getComputedStyle(p).height,
+      document.defaultView.getComputedStyle(elmnt).height,
       10
     );
     e = e || window.event;
@@ -255,9 +204,72 @@ function dragElement(elmnt) {
       return;
     elmnt.style.top = y + 'px';
     elmnt.style.left = x + 'px';
+    adjustLine(
+      p[0],
+      p[1],
+      document.getElementById('line1')
+    );
+    adjustLine(
+      p[0],
+      p[2],
+      document.getElementById('line2')
+    );
+    adjustLine(
+      p[2],
+      p[3],
+      document.getElementById('line3')
+    );
+    adjustLine(
+      p[3],
+      p[1],
+      document.getElementById('line4')
+    );
   }
   function closeDragElement() {
     document.onmouseup = null;
     document.onmousemove = null;
   }
+}
+
+function adjustLine(from, to, line) {
+  var fT = from.offsetTop + from.offsetHeight / 2;
+  var tT = to.offsetTop + to.offsetHeight / 2;
+  var fL = from.offsetLeft + from.offsetWidth / 2;
+  var tL = to.offsetLeft + to.offsetWidth / 2;
+
+  var CA = Math.abs(tT - fT);
+  var CO = Math.abs(tL - fL);
+  var H = Math.sqrt(CA * CA + CO * CO);
+  var ANG = (180 / Math.PI) * Math.acos(CA / H);
+
+  if (tT > fT) {
+    var top = (tT - fT) / 2 + fT;
+  } else {
+    var top = (fT - tT) / 2 + tT;
+  }
+  if (tL > fL) {
+    var left = (tL - fL) / 2 + fL;
+  } else {
+    var left = (fL - tL) / 2 + tL;
+  }
+
+  if (
+    (fT < tT && fL < tL) ||
+    (tT < fT && tL < fL) ||
+    (fT > tT && fL > tL) ||
+    (tT > fT && tL > fL)
+  ) {
+    ANG *= -1;
+  }
+  top -= H / 2;
+
+  line.style['-webkit-transform'] =
+    'rotate(' + ANG + 'deg)';
+  line.style['-moz-transform'] = 'rotate(' + ANG + 'deg)';
+  line.style['-ms-transform'] = 'rotate(' + ANG + 'deg)';
+  line.style['-o-transform'] = 'rotate(' + ANG + 'deg)';
+  line.style['-transform'] = 'rotate(' + ANG + 'deg)';
+  line.style.top = top + 'px';
+  line.style.left = left + 'px';
+  line.style.height = H + 'px';
 }
